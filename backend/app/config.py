@@ -22,7 +22,12 @@ class Settings(BaseSettings):
 
     DATABASE_URL: str = "sqlite:///./plantcare.db"
 
-    # Ollama Local AI Configuration
+    # Hosted Gemini AI
+    GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-2.5-flash"
+    GEMINI_TIMEOUT_SECONDS: int = 120
+
+    # Local Ollama AI (retained for local development)
     OLLAMA_BASE_URL: str = "http://127.0.0.1:11434"
     OLLAMA_MODEL: str = "llama3.2"
     OLLAMA_VISION_MODEL: str = "gemma3:4b"
@@ -38,7 +43,7 @@ class Settings(BaseSettings):
         ".webp",
     ]
 
-    # CORS: local development + deployed frontend
+    # CORS
     CORS_ORIGINS: str = (
         "http://localhost:5173,"
         "http://127.0.0.1:5173,"
