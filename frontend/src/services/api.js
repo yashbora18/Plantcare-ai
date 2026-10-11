@@ -1,27 +1,25 @@
-
 const BASE_URL = (
-  import.meta.env.VITE_API_URL || 'http://127.0.0.1:8081'
-).replace(/\/+$/, '');
+  import.meta.env.VITE_API_URL || "http://127.0.0.1:8081"
+).replace(/\/+$/, "");
 
 async function request(endpoint, options = {}) {
-  const token = localStorage.getItem('plantcare_token');
-
+  const token = localStorage.getItem("plantcare_token");
   const headers = new Headers(options.headers || {});
 
   if (token) {
-    headers.set('Authorization', `Bearer ${token}`);
+    headers.set("Authorization", `Bearer ${token}`);
   }
 
   const isFormData =
-    typeof FormData !== 'undefined' && options.body instanceof FormData;
+    typeof FormData !== "undefined" && options.body instanceof FormData;
 
   if (options.body !== undefined && !isFormData) {
-    if (!headers.has('Content-Type')) {
-      headers.set('Content-Type', 'application/json');
+    if (!headers.has("Content-Type")) {
+      headers.set("Content-Type", "application/json");
     }
   }
 
-  headers.set('Accept', 'application/json');
+  headers.set("Accept", "application/json");
 
   let response;
 
@@ -33,7 +31,7 @@ async function request(endpoint, options = {}) {
   } catch (cause) {
     const error = new Error(
       `Cannot connect to PlantCare API at ${BASE_URL}. ` +
-      'Check that FastAPI is running on port 8081.'
+        "Check the API URL, backend availability, and CORS configuration."
     );
     error.cause = cause;
     error.status = 0;
@@ -44,29 +42,29 @@ async function request(endpoint, options = {}) {
     return null;
   }
 
-  const contentType = response.headers.get('content-type') || '';
+  const contentType = response.headers.get("content-type") || "";
   let data;
 
-  if (contentType.includes('application/json')) {
+  if (contentType.includes("application/json")) {
     data = await response.json().catch(() => null);
   } else {
-    data = await response.text().catch(() => '');
+    data = await response.text().catch(() => "");
   }
 
   if (!response.ok) {
-    let errorMessage = 'An error occurred';
+    let errorMessage = "An error occurred";
 
-    if (typeof data === 'string' && data.trim()) {
+    if (typeof data === "string" && data.trim()) {
       errorMessage = data;
-    } else if (typeof data?.detail === 'string') {
+    } else if (typeof data?.detail === "string") {
       errorMessage = data.detail;
     } else if (Array.isArray(data?.detail)) {
       errorMessage = data.detail
         .map((item) => item.msg || JSON.stringify(item))
-        .join(', ');
-    } else if (typeof data?.detail?.error === 'string') {
+        .join(", ");
+    } else if (typeof data?.detail?.error === "string") {
       errorMessage = data.detail.error;
-    } else if (typeof data?.message === 'string') {
+    } else if (typeof data?.message === "string") {
       errorMessage = data.message;
     }
 
@@ -82,34 +80,34 @@ async function request(endpoint, options = {}) {
 export const api = {
   // Authentication
   register: (payload) =>
-    request('/api/auth/register', {
-      method: 'POST',
+    request("/api/auth/register", {
+      method: "POST",
       body: JSON.stringify(payload),
     }),
 
   login: (payload) =>
-    request('/api/auth/login', {
-      method: 'POST',
+    request("/api/auth/login", {
+      method: "POST",
       body: JSON.stringify(payload),
     }),
 
-  getProfile: () => request('/api/auth/me'),
+  getProfile: () => request("/api/auth/me"),
 
   updatePreferences: (payload) =>
-    request('/api/auth/preferences', {
-      method: 'PUT',
+    request("/api/auth/preferences", {
+      method: "PUT",
       body: JSON.stringify(payload),
     }),
 
   // Plants
   getPlants: (params = {}) => {
     const query = new URLSearchParams(params).toString();
-    return request(`/api/plants${query ? `?${query}` : ''}`);
+    return request(`/api/plants${query ? `?${query}` : ""}`);
   },
 
   createPlant: (payload) =>
-    request('/api/plants', {
-      method: 'POST',
+    request("/api/plants", {
+      method: "POST",
       body: JSON.stringify(payload),
     }),
 
@@ -117,21 +115,21 @@ export const api = {
 
   updatePlant: (id, payload) =>
     request(`/api/plants/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify(payload),
     }),
 
   deletePlant: (id) =>
     request(`/api/plants/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
     }),
 
   uploadPlantImage: (id, file) => {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
     return request(`/api/plants/${id}/upload-image`, {
-      method: 'POST',
+      method: "POST",
       body: formData,
     });
   },
@@ -139,60 +137,58 @@ export const api = {
   // Tasks
   getTasks: (params = {}) => {
     const query = new URLSearchParams(params).toString();
-    return request(`/api/tasks${query ? `?${query}` : ''}`);
+    return request(`/api/tasks${query ? `?${query}` : ""}`);
   },
 
   createTask: (payload) =>
-    request('/api/tasks', {
-      method: 'POST',
+    request("/api/tasks", {
+      method: "POST",
       body: JSON.stringify(payload),
     }),
 
   completeTask: (id, payload = {}) =>
     request(`/api/tasks/${id}/complete`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify(payload),
     }),
 
   updateTask: (id, payload) =>
     request(`/api/tasks/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify(payload),
     }),
 
   deleteTask: (id) =>
     request(`/api/tasks/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
     }),
 
   // AI Plant Doctor
   diagnosePlant: (formData) =>
-    request('/api/doctor/diagnose', {
-      method: 'POST',
+    request("/api/doctor/diagnose", {
+      method: "POST",
       body: formData,
     }),
 
   saveAssessment: (payload) =>
-    request('/api/doctor/save-assessment', {
-      method: 'POST',
+    request("/api/doctor/save-assessment", {
+      method: "POST",
       body: JSON.stringify(payload),
     }),
 
   uploadLeafPhoto: (file) => {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
-    return request('/api/doctor/upload-leaf-photo', {
-      method: 'POST',
+    return request("/api/doctor/upload-leaf-photo", {
+      method: "POST",
       body: formData,
     });
   },
 
   getAssessmentHistory: (params = {}) => {
     const query = new URLSearchParams(params).toString();
-    return request(
-      `/api/doctor/history${query ? `?${query}` : ''}`
-    );
+    return request(`/api/doctor/history${query ? `?${query}` : ""}`);
   },
 
   getAssessmentDetail: (id) =>
@@ -200,86 +196,86 @@ export const api = {
 
   // AI Gardening Assistant
   getChatSessions: () =>
-    request('/api/assistant/sessions'),
+    request("/api/assistant/sessions"),
 
   getSessionDetail: (sessionId) =>
     request(`/api/assistant/sessions/${sessionId}`),
 
   chatWithAssistant: (payload) =>
-    request('/api/assistant/chat', {
-      method: 'POST',
+    request("/api/assistant/chat", {
+      method: "POST",
       body: JSON.stringify(payload),
     }),
 
   deleteChatSession: (sessionId) =>
     request(`/api/assistant/sessions/${sessionId}`, {
-      method: 'DELETE',
+      method: "DELETE",
     }),
 
   // Smart Garden Planner
   generateGardenPlan: (payload) =>
-    request('/api/planner/generate', {
-      method: 'POST',
+    request("/api/planner/generate", {
+      method: "POST",
       body: JSON.stringify(payload),
     }),
 
   saveGardenPlan: (payload) =>
-    request('/api/planner/save', {
-      method: 'POST',
+    request("/api/planner/save", {
+      method: "POST",
       body: JSON.stringify(payload),
     }),
 
   getGardenPlans: () =>
-    request('/api/planner/plans'),
+    request("/api/planner/plans"),
 
   getGardenPlan: (id) =>
     request(`/api/planner/plans/${id}`),
 
   deleteGardenPlan: (id) =>
     request(`/api/planner/plans/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
     }),
 
   // Touch Grass Challenge
   getMissions: () =>
-    request('/api/challenge/missions'),
+    request("/api/challenge/missions"),
 
   completeMission: (missionId, payload) =>
     request(`/api/challenge/missions/${missionId}/complete`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify(payload),
     }),
 
   logOutdoorActivity: (payload) =>
-    request('/api/challenge/log-activity', {
-      method: 'POST',
+    request("/api/challenge/log-activity", {
+      method: "POST",
       body: JSON.stringify(payload),
     }),
 
   getChallengeSummary: () =>
-    request('/api/challenge/summary'),
+    request("/api/challenge/summary"),
 
   uploadChallengeEvidence: (file) => {
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append("file", file);
 
-    return request('/api/challenge/upload-evidence', {
-      method: 'POST',
+    return request("/api/challenge/upload-evidence", {
+      method: "POST",
       body: formData,
     });
   },
 
   // Analytics
   getDashboardStats: () =>
-    request('/api/analytics/dashboard'),
+    request("/api/analytics/dashboard"),
 
   getAnalyticsOverview: () =>
-    request('/api/analytics/overview'),
+    request("/api/analytics/overview"),
 
   // System
   getAiStatus: () =>
-    request('/api/system/ai-status'),
+    request("/api/system/ai-status"),
 
   getHealth: () =>
-    request('/api/system/health'),
+    request("/api/system/health"),
 };
