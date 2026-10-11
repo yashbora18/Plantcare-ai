@@ -521,7 +521,7 @@ export default function GardenPlannerPage() {
 
 
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
+                <div className="planner-form-actions" style={{ marginTop: '2rem' }}>
 
                   <button onClick={() => setCurrentStep(1)} className="btn btn-outline">
 
@@ -619,7 +619,7 @@ export default function GardenPlannerPage() {
 
 
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2rem' }}>
+                <div className="planner-form-actions" style={{ marginTop: '2rem' }}>
 
                   <button onClick={() => setCurrentStep(2)} className="btn btn-outline">
 

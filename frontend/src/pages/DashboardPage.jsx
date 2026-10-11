@@ -258,22 +258,50 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Local AI Status Card */}
-          <div className="botanical-card" style={{ background: 'var(--bg-surface-alt)' }}>
-            <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-              <Sprout size={18} color="var(--accent-fresh)" />
-              <span>Zero-Cloud Open-Source AI</span>
-            </h4>
-            <p style={{ fontSize: '0.85rem', marginBottom: '1rem' }}>
-              PlantCare AI operates with local open-weight language models via Ollama. No personal garden data leaves your computer.
-            </p>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.85rem' }}>
-              <span style={{ color: 'var(--text-muted)' }}>Status:</span>
-              <span style={{ fontWeight: 700, color: stats?.ai_status?.available ? 'var(--status-healthy)' : 'var(--status-warning)' }}>
-                {stats?.ai_status?.available ? 'Online (Local Inference)' : 'Offline (Setup Required)'}
-              </span>
-            </div>
-          </div>
+          
+{/* Gemini AI Status Card */}
+<div
+  className="botanical-card"
+  style={{ background: 'var(--bg-surface-alt)' }}
+>
+  <h4
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.5rem',
+      marginBottom: '0.5rem',
+    }}
+  >
+    <Sprout size={18} color="var(--accent-fresh)" />
+    <span>Gemini-Powered Plant Intelligence</span>
+  </h4>
+
+  <p style={{ fontSize: '0.85rem', marginBottom: '1rem' }}>
+    PlantCare AI uses Google Gemini to help diagnose plant
+    problems, answer gardening questions, and create personalized
+    garden plans.
+  </p>
+
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      gap: '0.75rem',
+      flexWrap: 'wrap',
+      fontSize: '0.85rem',
+    }}
+  >
+    <span style={{ color: 'var(--text-muted)' }}>
+      AI Provider:
+    </span>
+
+    <span style={{ fontWeight: 700 }}>
+      Google Gemini
+    </span>
+  </div>
+</div>
+
         </div>
       </div>
     </div>

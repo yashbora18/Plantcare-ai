@@ -1,126 +1,167 @@
+
 import React, { useState } from 'react';
-import { Cpu, RefreshCw, AlertCircle, CheckCircle2, ChevronDown } from 'lucide-react';
+import {
+  Cpu,
+  RefreshCw,
+  AlertCircle,
+  CheckCircle2,
+  ChevronDown,
+} from 'lucide-react';
 import { useAiStatus } from '../../context/AiStatusContext';
 
 export default function AiStatusPill({ showDetails = true }) {
-  const { aiStatus, checkStatus } = useAiStatus();
+  const { aiStatus = {}, checkStatus } = useAiStatus();
   const [isOpen, setIsOpen] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  const handleRefresh = async (e) => {
-    e.stopPropagation();
+  const provider = String(
+    aiStatus.provider || aiStatus.ai_provider || 'Gemini'
+  );
+
+  const configuredModel =
+    aiStatus.configured_model ||
+    aiStatus.model ||
+    'Gemini';
+
+  const isOnline = Boolean(aiStatus.available);
+  const modelReady =
+    aiStatus.model_ready ?? aiStatus.available ?? false;
+
+  const providerName =
+    /ollama/i.test(provider) ? 'Ollama' : 'Gemini';
+
+  const statusLabel = !isOnline
+    ? 'AI Offline'
+    : modelReady
+      ? `${providerName} AI`
+      : `${providerName} Unavailable`;
+
+  const handleRefresh = async (event) => {
+    event.stopPropagation();
+    if (isRefreshing) return;
+
     setIsRefreshing(true);
-    await checkStatus();
-    setIsRefreshing(false);
+    try {
+      await checkStatus();
+    } catch (error) {
+      console.error('Unable to refresh AI status:', error);
+    } finally {
+      setIsRefreshing(false);
+    }
   };
 
-  const isOnline = aiStatus.available;
-  const modelReady = aiStatus.model_ready;
-
   return (
-    <div style={{ position: 'relative' }}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="ai-status-pill"
-        title="Local AI Inference Status"
-        aria-label="Local AI status"
-      >
-        <span className={`status-dot ${isOnline ? 'online' : 'offline'}`} />
-        <Cpu size={14} />
-        <span>
-          {isOnline
-            ? modelReady
-              ? `Ollama: ${aiStatus.configured_model}`
-              : 'Ollama: Model Missing'
-            : 'AI: Offline'}
-        </span>
+    <div className="ai-status-wrapper">
+      <div className="ai-status-pill">
         <button
-          onClick={handleRefresh}
-          style={{ background: 'none', border: 'none', padding: '0 2px', display: 'flex', color: 'inherit' }}
-          title="Refresh Ollama Status"
+          type="button"
+          className="ai-status-main"
+          onClick={() => setIsOpen((open) => !open)}
+          aria-expanded={isOpen}
+          aria-haspopup="dialog"
+          aria-label={`AI provider status: ${statusLabel}`}
         >
-          <RefreshCw size={12} className={isRefreshing ? 'spinner' : ''} />
+          <span
+            className={`status-dot ${isOnline && modelReady ? 'online' : 'offline'}`}
+          />
+          <Cpu size={14} aria-hidden="true" />
+          <span className="ai-status-label">{statusLabel}</span>
+          {showDetails && (
+            <ChevronDown
+              size={13}
+              className="ai-status-chevron"
+              aria-hidden="true"
+            />
+          )}
         </button>
-        {showDetails && <ChevronDown size={12} style={{ opacity: 0.7 }} />}
-      </button>
+
+        <button
+          type="button"
+          className="ai-status-refresh"
+          onClick={handleRefresh}
+          disabled={isRefreshing}
+          title="Refresh AI status"
+          aria-label="Refresh AI status"
+        >
+          <RefreshCw
+            size={13}
+            className={isRefreshing ? 'spinner' : ''}
+          />
+        </button>
+      </div>
 
       {isOpen && showDetails && (
-        <div
-          style={{
-            position: 'absolute',
-            top: 'calc(100% + 8px)',
-            right: 0,
-            width: '320px',
-            backgroundColor: 'var(--bg-surface)',
-            border: '1px solid var(--border-medium)',
-            borderRadius: 'var(--radius-lg)',
-            boxShadow: 'var(--shadow-lg)',
-            padding: '1.25rem',
-            zIndex: 1000,
-            fontSize: '0.85rem',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-            <Cpu size={18} color="var(--accent-fresh)" />
-            <strong style={{ fontSize: '0.95rem' }}>Local Open-Source AI</strong>
-          </div>
+        <>
+          <button
+            type="button"
+            className="ai-status-dismiss"
+            aria-label="Close AI status details"
+            onClick={() => setIsOpen(false)}
+          />
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem', marginBottom: '1rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'var(--text-muted)' }}>Service:</span>
-              <span style={{ fontWeight: 600, color: isOnline ? 'var(--status-healthy)' : 'var(--status-danger)' }}>
-                {isOnline ? 'Active (localhost:11434)' : 'Offline / Unreachable'}
-              </span>
+          <section
+            className="ai-status-details"
+            role="dialog"
+            aria-label="AI provider details"
+          >
+            <div className="ai-status-details-heading">
+              <Cpu size={19} color="var(--accent-fresh)" />
+              <strong>AI Service Status</strong>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'var(--text-muted)' }}>Text Model:</span>
-              <span style={{ fontWeight: 600 }}>{aiStatus.configured_model}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'var(--text-muted)' }}>Vision Model:</span>
-              <span style={{ fontWeight: 600 }}>{aiStatus.configured_vision_model}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span style={{ color: 'var(--text-muted)' }}>Vision Ready:</span>
-              <span style={{ fontWeight: 600, color: aiStatus.vision_ready ? 'var(--status-healthy)' : 'var(--status-warning)' }}>
-                {aiStatus.vision_ready ? 'Yes' : 'No (Text fallback active)'}
-              </span>
-            </div>
-          </div>
 
-          {!isOnline && (
-            <div
-              style={{
-                background: 'var(--status-danger-bg)',
-                border: '1px solid var(--status-danger)',
-                borderRadius: 'var(--radius-sm)',
-                padding: '0.75rem',
-                fontSize: '0.8rem',
-                color: 'var(--text-primary)',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontWeight: 600, color: 'var(--status-danger)', marginBottom: '0.35rem' }}>
-                <AlertCircle size={14} /> Start Ollama locally:
+            <div className="ai-status-detail-row">
+              <span>Provider</span>
+              <strong>{providerName}</strong>
+            </div>
+
+            <div className="ai-status-detail-row">
+              <span>Service</span>
+              <strong
+                className={
+                  isOnline && modelReady
+                    ? 'ai-status-success'
+                    : 'ai-status-error'
+                }
+              >
+                {isOnline && modelReady ? 'Available' : 'Unavailable'}
+              </strong>
+            </div>
+
+            <div className="ai-status-detail-row">
+              <span>Configured model</span>
+              <strong className="ai-status-model">
+                {configuredModel}
+              </strong>
+            </div>
+
+            {aiStatus.note && (
+              <p className="ai-status-note">{aiStatus.note}</p>
+            )}
+
+            {!isOnline || !modelReady ? (
+              <div className="ai-status-warning">
+                <AlertCircle size={16} />
+                <span>
+                  The AI service is currently unavailable. Try refreshing
+                  the status or retry your request shortly.
+                </span>
               </div>
-              <code style={{ background: 'rgba(0,0,0,0.1)', padding: '0.15rem 0.35rem', borderRadius: '3px', display: 'block', marginBottom: '0.35rem' }}>
-                ollama serve
-              </code>
-              <code style={{ background: 'rgba(0,0,0,0.1)', padding: '0.15rem 0.35rem', borderRadius: '3px', display: 'block' }}>
-                ollama pull {aiStatus.configured_model}
-              </code>
-            </div>
-          )}
+            ) : (
+              <div className="ai-status-healthy">
+                <CheckCircle2 size={16} />
+                <span>The AI service reports that it is available.</span>
+              </div>
+            )}
 
-          <div style={{ marginTop: '0.85rem', textAlign: 'center' }}>
             <button
+              type="button"
               onClick={() => setIsOpen(false)}
-              className="btn btn-outline btn-sm"
-              style={{ width: '100%' }}
+              className="btn btn-outline btn-sm ai-status-close"
             >
               Close
             </button>
-          </div>
-        </div>
+          </section>
+        </>
       )}
     </div>
   );

@@ -1,151 +1,268 @@
+
 @import './variables.css';
 
-/* Dashboard Styles */
+/* =========================================================
+   Dashboard layout
+   ========================================================= */
+
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
   margin-bottom: 2rem;
+  width: 100%;
+  min-width: 0;
 }
 
-@media (max-width: 1100px) {
-  .dashboard-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 600px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
+.dashboard-grid > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .dashboard-main-columns {
   display: grid;
-  grid-template-columns: 1.8fr 1.2fr;
-  gap: 2rem;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1.2fr);
+  align-items: start;
+  gap: 1.5rem;
+  width: 100%;
+  min-width: 0;
 }
 
-@media (max-width: 950px) {
-  .dashboard-main-columns {
-    grid-template-columns: 1fr;
-  }
+.dashboard-main-columns > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
-/* Touch Grass Highlight Card */
-.touch-grass-banner {
-  background: linear-gradient(135deg, var(--color-forest-green), #1b5e3f);
-  color: #FFFFFF;
+.botanical-card {
+  min-width: 0;
+  max-width: 100%;
+  padding: 1.5rem;
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-xl);
-  padding: 2rem;
-  margin-bottom: 2rem;
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.botanical-card h3,
+.botanical-card h4 {
+  overflow-wrap: anywhere;
+}
+
+.stat-card {
   display: flex;
-  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  min-width: 0;
+  padding: 1.25rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  display: flex;
   align-items: center;
-  gap: 2rem;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+}
+
+.stat-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.stat-label {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.stat-value {
+  margin: 0.25rem 0;
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.stat-trend {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   Touch Grass banner
+   ========================================================= */
+
+.touch-grass-banner {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 2rem;
+  padding: 2rem;
   overflow: hidden;
+  border-radius: var(--radius-xl);
+  color: #fff;
+  background: linear-gradient(
+    135deg,
+    var(--color-forest-green),
+    #1b5e3f
+  );
   box-shadow: 0 10px 25px rgba(23, 77, 53, 0.25);
 }
 
 .banner-content {
-  max-width: 580px;
   position: relative;
   z-index: 2;
+  flex: 1 1 0%;
+  min-width: 0;
+  max-width: 580px;
 }
 
 .banner-content h2 {
-  color: #FFFFFF;
-  font-size: 1.85rem;
   margin-bottom: 0.5rem;
+  color: #fff;
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  overflow-wrap: anywhere;
 }
 
 .banner-content p {
+  margin-bottom: 1.25rem;
   color: rgba(255, 255, 255, 0.88);
   font-size: 1rem;
-  margin-bottom: 1.25rem;
+  overflow-wrap: anywhere;
+}
+
+.banner-badge {
+  display: inline-block;
+  max-width: 100%;
+  margin-bottom: 0.75rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 0.8rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 .banner-action-row {
   display: flex;
-  gap: 1rem;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
-.banner-badge {
-  background: rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
-  padding: 0.35rem 0.85rem;
-  border-radius: var(--radius-full);
-  font-size: 0.8rem;
-  font-weight: 700;
-  display: inline-block;
-  margin-bottom: 0.75rem;
+.banner-action-row .btn {
+  max-width: 100%;
+  white-space: normal;
+  text-align: center;
 }
 
 .banner-stats {
   display: flex;
-  gap: 1.5rem;
-  background: rgba(255, 255, 255, 0.12);
-  padding: 1.25rem 1.75rem;
-  border-radius: var(--radius-lg);
-  backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  gap: 1.25rem;
+  padding: 1.25rem;
   border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
   text-align: center;
 }
 
+.banner-stats > div {
+  min-width: 0;
+}
+
 .banner-stat-num {
+  color: #fff;
   font-family: var(--font-heading);
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
   font-weight: 800;
-  color: #FFFFFF;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .banner-stat-desc {
-  font-size: 0.75rem;
-  text-transform: uppercase;
   color: rgba(255, 255, 255, 0.8);
+  font-size: 0.7rem;
   letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
-/* Quick Action Grid */
+/* =========================================================
+   Quick actions
+   ========================================================= */
+
 .quick-actions-bar {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 2rem;
-  flex-wrap: wrap;
+  min-width: 0;
 }
 
 .action-pill-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
-  border-radius: var(--radius-md);
-  background: var(--bg-card);
+  gap: 0.65rem;
+  width: 100%;
+  min-width: 0;
+  padding: 0.85rem 1rem;
   border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
   color: var(--text-primary);
-  font-weight: 600;
+  background: var(--bg-card);
   box-shadow: var(--shadow-sm);
-  transition: all var(--transition-fast);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.action-pill-btn svg {
+  flex-shrink: 0;
 }
 
 .action-pill-btn:hover {
   border-color: var(--accent-fresh);
   background: var(--bg-card-hover);
-  transform: translateY(-2px);
   text-decoration: none;
 }
 
-/* Dashboard Task List */
+/* =========================================================
+   Dashboard task list
+   ========================================================= */
+
 .task-item-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.25rem;
-  background: var(--bg-surface);
+  gap: 0.85rem;
+  min-width: 0;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  margin-bottom: 0.75rem;
+  background: var(--bg-surface);
   transition: border-color var(--transition-fast);
 }
 
@@ -156,17 +273,24 @@
 .task-left {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.task-left > div {
+  min-width: 0;
 }
 
 .task-check-circle {
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: var(--radius-full);
-  border: 2px solid var(--border-medium);
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: 0 0 1.5rem;
+  border: 2px solid var(--border-medium);
+  border-radius: var(--radius-full);
   cursor: pointer;
   transition: all var(--transition-fast);
 }
@@ -177,18 +301,217 @@
 }
 
 .task-check-circle.completed {
-  background: var(--status-healthy);
   border-color: var(--status-healthy);
-  color: #FFFFFF;
+  color: #fff;
+  background: var(--status-healthy);
 }
 
 .task-title-text {
-  font-weight: 600;
   color: var(--text-primary);
   font-size: 0.95rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 .task-plant-sub {
-  font-size: 0.82rem;
   color: var(--text-muted);
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+}
+
+.task-item-card > .badge {
+  flex-shrink: 0;
+  max-width: 40%;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   Tablet
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .dashboard-main-columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+
+  .touch-grass-banner {
+    gap: 1.25rem;
+    padding: 1.5rem;
+  }
+
+  .banner-stats {
+    gap: 1rem;
+    padding: 1rem;
+  }
+}
+
+/* =========================================================
+   Mobile
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .stat-card {
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 0.9rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+
+  .stat-icon svg {
+    width: 21px;
+    height: 21px;
+  }
+
+  .stat-label {
+    font-size: 0.78rem;
+  }
+
+  .stat-value {
+    font-size: 1.6rem;
+  }
+
+  .stat-trend {
+    font-size: 0.73rem;
+  }
+
+  .dashboard-main-columns {
+    gap: 1rem;
+  }
+
+  .botanical-card {
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .touch-grass-banner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-radius: var(--radius-lg);
+  }
+
+  .banner-content {
+    max-width: 100%;
+  }
+
+  .banner-content h2 {
+    font-size: 1.45rem;
+  }
+
+  .banner-content p {
+    font-size: 0.9rem;
+  }
+
+  .banner-badge {
+    border-radius: var(--radius-md);
+    font-size: 0.72rem;
+  }
+
+  .banner-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+    gap: 0.75rem;
+    padding: 0.85rem;
+  }
+
+  .banner-stat-num {
+    font-size: 1.6rem;
+  }
+
+  .banner-stat-desc {
+    font-size: 0.65rem;
+  }
+
+  .banner-action-row {
+    align-items: stretch;
+  }
+
+  .banner-action-row .btn {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .task-item-card {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    padding: 0.85rem;
+  }
+
+  .task-left {
+    flex: 1 1 100%;
+  }
+
+  .task-item-card > .badge {
+    max-width: 100%;
+    margin-left: 2.25rem;
+  }
+
+  .action-pill-btn {
+    padding: 0.8rem;
+    font-size: 0.85rem;
+  }
+
+  .quick-actions-bar {
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
+/* Extra-small phones */
+@media (max-width: 360px) {
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .stat-card {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .stat-value {
+    font-size: 1.7rem;
+  }
+
+  .touch-grass-banner {
+    padding: 1rem;
+  }
+
+  .banner-content h2 {
+    font-size: 1.3rem;
+  }
+
+  .botanical-card {
+    padding: 0.85rem;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .task-item-card,
+  .task-check-circle,
+  .action-pill-btn {
+    transition: none;
+  }
 }

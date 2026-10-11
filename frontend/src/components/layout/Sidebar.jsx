@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import {
@@ -14,23 +15,17 @@ import {
   Moon,
   Leaf,
   X,
-  Sparkles,
 } from 'lucide-react';
+
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useToast } from '../../context/ToastContext';
 
-export default function Sidebar({ isOpen, onClose }) {
+export default function Sidebar({ isOpen = false, onClose = () => {} }) {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { addToast } = useToast();
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    addToast('You have been logged out.', 'info');
-    navigate('/');
-  };
 
   const navLinks = [
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -49,251 +44,116 @@ export default function Sidebar({ isOpen, onClose }) {
     { to: '/analytics', label: 'Analytics', icon: BarChart3 },
   ];
 
+  const handleLogout = () => {
+    onClose();
+    logout();
+    addToast('You have been logged out.', 'info');
+    navigate('/');
+  };
+
   return (
     <>
-      {/* Mobile Backdrop */}
       {isOpen && (
-        <div
+        <button
+          type="button"
+          className="sidebar-backdrop"
           onClick={onClose}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            background: 'rgba(0,0,0,0.5)',
-            zIndex: 900,
-            backdropFilter: 'blur(2px)',
-          }}
+          aria-label="Close navigation menu"
+          tabIndex={0}
         />
       )}
 
       <aside
-        style={{
-          width: '260px',
-          backgroundColor: 'var(--bg-sidebar)',
-          color: '#FFFFFF',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'sticky',
-          top: 0,
-          height: '100vh',
-          zIndex: 950,
-          flexShrink: 0,
-          transition: 'transform var(--transition-normal)',
-          borderRight: '1px solid rgba(255, 255, 255, 0.08)',
-          ...(isOpen
-            ? { transform: 'translateX(0)', position: 'fixed' }
-            : { '@media (max-width: 900px)': { transform: 'translateX(-100%)', position: 'fixed' } }),
-        }}
-        className={isOpen ? 'sidebar-open' : ''}
+        id="app-sidebar"
+        className={`app-sidebar${isOpen ? ' is-open' : ''}`}
+        aria-label="Main navigation"
+        aria-hidden={undefined}
       >
-        {/* Brand Header */}
-        <div
-          style={{
-            padding: '1.5rem 1.25rem 1.25rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-          }}
-        >
+        <div className="sidebar-brand">
           <NavLink
             to="/dashboard"
+            className="sidebar-brand-link"
             onClick={onClose}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.65rem',
-              color: '#FFFFFF',
-              textDecoration: 'none',
-              fontFamily: 'var(--font-heading)',
-              fontSize: '1.25rem',
-              fontWeight: 800,
-            }}
           >
-            <div
-              style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: 'var(--radius-sm)',
-                background: 'var(--color-fresh-leaf)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#111713',
-              }}
-            >
-              <Leaf size={18} />
-            </div>
+            <span className="sidebar-brand-icon">
+              <Leaf size={19} />
+            </span>
             <span>PlantCare AI</span>
           </NavLink>
 
-          {/* Mobile Close Button */}
           <button
+            type="button"
+            className="sidebar-mobile-close"
             onClick={onClose}
-            style={{
-              display: 'none',
-              color: 'rgba(255,255,255,0.7)',
-              padding: '0.25rem',
-            }}
-            className="mobile-close-btn"
-            aria-label="Close sidebar"
+            aria-label="Close navigation menu"
           >
-            <X size={20} />
+            <X size={21} />
           </button>
         </div>
 
-        {/* Tagline Badge */}
-        <div style={{ padding: '0.65rem 1.25rem 0.25rem' }}>
-          <div
-            style={{
-              fontSize: '0.72rem',
-              color: 'rgba(255, 255, 255, 0.65)',
-              letterSpacing: '0.04em',
-              textTransform: 'uppercase',
-              fontWeight: 600,
-            }}
-          >
-            Less Scrolling. More Growing.
-          </div>
+        <div className="sidebar-tagline">
+          Less Scrolling. More Growing.
         </div>
 
-        {/* Navigation Links */}
-        <nav
-          style={{
-            flex: 1,
-            overflowY: 'auto',
-            padding: '1rem 0.75rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.35rem',
-          }}
-        >
-          {navLinks.map((item) => {
-            const Icon = item.icon;
-            return (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                onClick={onClose}
-                style={({ isActive }) => ({
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  padding: '0.75rem 1rem',
-                  borderRadius: 'var(--radius-md)',
-                  color: isActive ? '#FFFFFF' : 'rgba(255, 255, 255, 0.78)',
-                  backgroundColor: isActive
-                    ? 'var(--bg-sidebar-active)'
-                    : item.highlight
-                    ? 'rgba(101, 166, 111, 0.15)'
-                    : 'transparent',
-                  border: item.highlight && !isActive
-                    ? '1px dashed rgba(101, 166, 111, 0.45)'
-                    : '1px solid transparent',
-                  fontWeight: isActive ? 600 : 500,
-                  fontSize: '0.92rem',
-                  textDecoration: 'none',
-                  transition: 'all var(--transition-fast)',
-                })}
-              >
-                <Icon size={18} color={item.highlight ? 'var(--color-fresh-leaf)' : 'currentColor'} />
-                <span style={{ flex: 1 }}>{item.label}</span>
-                {item.badge && (
-                  <span
-                    style={{
-                      fontSize: '0.68rem',
-                      fontWeight: 700,
-                      backgroundColor: 'var(--color-fresh-leaf)',
-                      color: '#0F3323',
-                      padding: '0.15rem 0.45rem',
-                      borderRadius: 'var(--radius-full)',
-                    }}
-                  >
-                    {item.badge}
-                  </span>
-                )}
-              </NavLink>
-            );
-          })}
+        <nav className="sidebar-nav">
+          {navLinks.map(({ to, label, icon: Icon, highlight, badge }) => (
+            <NavLink
+              key={to}
+              to={to}
+              onClick={onClose}
+              className={({ isActive }) =>
+                [
+                  'sidebar-nav-link',
+                  isActive ? 'active' : '',
+                  highlight ? 'highlight' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')
+              }
+            >
+              <Icon
+                size={19}
+                aria-hidden="true"
+                className={highlight ? 'sidebar-highlight-icon' : ''}
+              />
+              <span className="sidebar-nav-label">{label}</span>
+              {badge && <span className="sidebar-nav-badge">{badge}</span>}
+            </NavLink>
+          ))}
         </nav>
 
-        {/* User Card & Controls */}
-        <div
-          style={{
-            padding: '1.25rem',
-            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '0.75rem',
-            backgroundColor: 'rgba(0, 0, 0, 0.15)',
-          }}
-        >
-          {/* User info */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-              <div
-                style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: 'var(--radius-full)',
-                  background: 'var(--color-earth-brown)',
-                  color: '#FFFFFF',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 700,
-                  fontSize: '0.85rem',
-                }}
-              >
-                {user?.username?.charAt(0)?.toUpperCase() || 'U'}
+        <div className="sidebar-footer">
+          <div className="sidebar-user">
+            <div className="sidebar-avatar" aria-hidden="true">
+              {user?.username?.charAt(0)?.toUpperCase() || 'U'}
+            </div>
+
+            <div className="sidebar-user-details">
+              <div className="sidebar-user-name">
+                {user?.full_name || user?.username || 'User'}
               </div>
-              <div style={{ overflow: 'hidden' }}>
-                <div style={{ fontSize: '0.88rem', fontWeight: 600, color: '#FFFFFF', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
-                  {user?.full_name || user?.username}
-                </div>
-                <div style={{ fontSize: '0.72rem', color: 'rgba(255, 255, 255, 0.6)' }}>
-                  @{user?.username}
-                </div>
+              <div className="sidebar-user-handle">
+                @{user?.username || 'user'}
               </div>
             </div>
 
-            {/* Theme Toggle */}
             <button
+              type="button"
+              className="sidebar-theme-toggle"
               onClick={toggleTheme}
-              style={{
-                background: 'rgba(255, 255, 255, 0.1)',
-                border: 'none',
-                color: '#FFFFFF',
-                width: '30px',
-                height: '30px',
-                borderRadius: 'var(--radius-md)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-              }}
-              title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
+              title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
               aria-label="Toggle theme"
             >
-              {theme === 'light' ? <Moon size={15} /> : <Sun size={15} />}
+              {theme === 'light' ? <Moon size={17} /> : <Sun size={17} />}
             </button>
           </div>
 
-          {/* Logout Button */}
           <button
+            type="button"
+            className="sidebar-logout"
             onClick={handleLogout}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              color: 'rgba(255, 255, 255, 0.75)',
-              fontSize: '0.85rem',
-              padding: '0.45rem 0.5rem',
-              borderRadius: 'var(--radius-sm)',
-              width: '100%',
-              justifyContent: 'flex-start',
-            }}
           >
-            <LogOut size={15} />
+            <LogOut size={16} />
             <span>Sign Out</span>
           </button>
         </div>

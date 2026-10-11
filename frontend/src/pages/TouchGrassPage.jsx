@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import {
   Flame,
   CheckCircle2,
@@ -353,13 +354,13 @@ export default function TouchGrassPage() {
       )}
 
       {/* Zen "Put Your Phone Away" Modal Mode */}
-      {zenModeOpen && (
-        <div className="zen-overlay">
+      {zenModeOpen && createPortal(
+        <div className="zen-overlay" role="dialog" aria-modal="true" aria-labelledby="zen-mode-title">
           <div className="zen-leaf-pulsing">
             <Leaf size={44} />
           </div>
 
-          <h2 className="zen-title">Put Your Screen Away</h2>
+          <h2 id="zen-mode-title" className="zen-title">Put Your Screen Away</h2>
           <p className="zen-subtitle">
             Your plants don't live in code. Step into natural light, take three deep breaths, feel the garden breeze, and inspect your plants with your own eyes.
           </p>
@@ -372,7 +373,7 @@ export default function TouchGrassPage() {
             "Observe without photographing. Listen to the outdoor birds and feel the soil temperature."
           </div>
 
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+          <div className="zen-session-controls">
             <button
               onClick={() => setZenActive(!zenActive)}
               className="btn btn-primary btn-lg"
@@ -382,18 +383,21 @@ export default function TouchGrassPage() {
               <span>{zenActive ? 'Pause Session' : 'Resume Timer'}</span>
             </button>
 
-            <button
-              onClick={() => {
-                setZenActive(false);
-                setZenModeOpen(false);
-              }}
-              className="btn btn-outline btn-lg"
-              style={{ color: '#FFFFFF', borderColor: 'rgba(255,255,255,0.3)' }}
-            >
-              Return to App
-            </button>
+            
+<button
+  type="button"
+  onClick={() => {
+    setZenActive(false);
+    setZenModeOpen(false);
+  }}
+  className="btn btn-outline btn-lg zen-return-button"
+>
+  <span>Return to App</span>
+</button>
+
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* Complete Mission Modal */}

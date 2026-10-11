@@ -1,9 +1,19 @@
+
 @import './variables.css';
 
-/* Touch Grass Challenge - Hacktoberfest Week 1 Core Feature */
+/* =========================================================
+   TOUCH GRASS CHALLENGE
+   ========================================================= */
+
 .touch-grass-hero {
-  background: linear-gradient(135deg, rgba(23, 77, 53, 0.92), rgba(101, 166, 111, 0.88)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><circle cx="40" cy="40" r="1.5" fill="%23ffffff" fill-opacity="0.15"/></svg>');
-  color: #FFFFFF;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(23, 77, 53, 0.92),
+      rgba(101, 166, 111, 0.88)
+    ),
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><circle cx="40" cy="40" r="1.5" fill="%23ffffff" fill-opacity="0.15"/></svg>');
+  color: #fff;
   border-radius: var(--radius-xl);
   padding: 3rem 2.5rem;
   margin-bottom: 2.5rem;
@@ -16,7 +26,7 @@
 }
 
 .touch-grass-hero h1 {
-  color: #FFFFFF;
+  color: #fff;
   font-size: 2.4rem;
   margin-bottom: 0.5rem;
 }
@@ -27,105 +37,247 @@
   max-width: 620px;
 }
 
-/* Zen "Put Your Phone Away" Screen Mode */
+/* =========================================================
+   ZEN MODE — FULL-SCREEN SESSION
+   ========================================================= */
+
 .zen-overlay {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at center, #174D35, #0B2418);
-  z-index: 3000;
+  z-index: 2147483000;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  padding: 1.25rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #FFFFFF;
+  gap: 0.5rem;
+
+  color: #fff;
   text-align: center;
-  padding: 2rem;
-  animation: fadeIn 0.4s ease-out;
+  background: radial-gradient(circle at center, #174D35, #0B2418);
+  animation: fadeIn 0.25s ease-out;
+  -webkit-overflow-scrolling: touch;
+}
+.zen-overlay *,
+.zen-overlay *::before,
+.zen-overlay *::after {
+  box-sizing: border-box;
 }
 
+.zen-overlay > * {
+  max-width: 100%;
+}
+
+/* Leaf icon */
+
 .zen-leaf-pulsing {
-  width: 90px;
-  height: 90px;
-  border-radius: var(--radius-full);
-  background: rgba(101, 166, 111, 0.25);
+  flex: 0 0 auto;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 1rem;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   color: #65A66F;
-  margin-bottom: 2rem;
+  background: rgba(101, 166, 111, 0.25);
+  border-radius: 50%;
+
+  box-shadow: 0 0 35px rgba(101, 166, 111, 0.3);
   animation: pulseLeaf 3s infinite ease-in-out;
-  box-shadow: 0 0 40px rgba(101, 166, 111, 0.4);
 }
+
+/* Session heading */
 
 .zen-title {
-  font-size: 2.8rem;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 0 0.75rem;
+
+  color: #fff;
+  font-size: clamp(1.65rem, 5vw, 2.8rem);
   font-weight: 800;
-  margin-bottom: 1rem;
-  color: #FFFFFF;
+  line-height: 1.2;
+
+  overflow-wrap: anywhere;
 }
+
+/* Description */
 
 .zen-subtitle {
-  font-size: 1.35rem;
-  color: rgba(255, 255, 255, 0.85);
+  width: 100%;
   max-width: 580px;
-  margin-bottom: 2.5rem;
-  line-height: 1.6;
+  margin: 0 0 1.25rem;
+
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(0.95rem, 2.5vw, 1.35rem);
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
 }
+
+/* Countdown timer */
 
 .zen-timer-display {
-  font-family: var(--font-heading);
-  font-size: 3.5rem;
-  font-weight: 800;
+  flex: 0 0 auto;
+  margin: 0 0 1.25rem;
+
   color: #65A66F;
-  margin-bottom: 2rem;
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 9vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
   letter-spacing: 0.05em;
+  font-variant-numeric: tabular-nums;
 }
+
+/* Nature tip */
 
 .zen-tip-box {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 0 1.25rem;
+  padding: 1rem 1.25rem;
+
+  color: #fff;
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: var(--radius-lg);
-  padding: 1.25rem 2rem;
-  max-width: 540px;
-  margin-bottom: 2.5rem;
-  font-size: 1rem;
+
+  font-size: 0.95rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
-/* Challenge Metrics Row */
+/* =========================================================
+   ZEN SESSION BUTTONS
+   IMPORTANT:
+   The JSX wrapper must use className="zen-session-controls".
+   ========================================================= */
+
+.zen-session-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 430px;
+  min-width: 0;
+  margin: 0 auto;
+}
+
+.zen-session-controls > button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 50px;
+  padding: 0.8rem 1rem;
+
+  border-radius: var(--radius-lg);
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.zen-session-controls > button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+/* Return to App */
+
+.zen-session-controls > .zen-return-button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: 50px;
+  padding: 0.8rem 1rem;
+
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+
+  visibility: visible;
+  opacity: 1;
+}
+
+.zen-session-controls > .zen-return-button:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.zen-return-button span {
+  display: inline-block;
+  color: inherit;
+  visibility: visible;
+  opacity: 1;
+}
+
+/* =========================================================
+   CHALLENGE METRICS
+   ========================================================= */
+
 .challenge-metrics-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1.5rem;
   margin-bottom: 2.5rem;
 }
 
-@media (max-width: 1000px) {
-  .challenge-metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 600px) {
-  .challenge-metrics-grid {
-    grid-template-columns: 1fr;
-  }
-}
+/* =========================================================
+   MISSIONS
+   ========================================================= */
 
-/* Missions Checklist */
 .missions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(min(100%, 360px), 1fr)
+  );
   gap: 1.5rem;
   margin-bottom: 3rem;
 }
 
 .mission-card {
+  min-width: 0;
   background: var(--bg-card);
   border: 1.5px solid var(--border-subtle);
   border-radius: var(--radius-xl);
   padding: 1.75rem;
+
   box-shadow: var(--shadow-sm);
   transition: all var(--transition-normal);
+
   display: flex;
   flex-direction: column;
   position: relative;
@@ -151,9 +303,11 @@
 }
 
 .mission-title {
+  min-width: 0;
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-primary);
+  overflow-wrap: anywhere;
 }
 
 .mission-instructions {
@@ -164,19 +318,23 @@
   color: var(--text-secondary);
   margin: 1rem 0;
   white-space: pre-line;
+  overflow-wrap: anywhere;
 }
 
 .mission-sustainable-tip {
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
+
   font-size: 0.82rem;
   color: var(--color-earth-brown);
   background: var(--accent-earth-light);
+
   padding: 0.75rem 1rem;
   border-radius: var(--radius-md);
   margin-bottom: 1.25rem;
 }
+
 [data-theme="dark"] .mission-sustainable-tip {
   color: #D4A373;
 }
@@ -185,12 +343,17 @@
   margin-top: auto;
   padding-top: 1rem;
   border-top: 1px solid var(--border-subtle);
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 0.75rem;
 }
 
-/* Quick Minute Log Chips */
+/* =========================================================
+   QUICK MINUTE LOG
+   ========================================================= */
+
 .quick-log-chips {
   display: flex;
   gap: 0.65rem;
@@ -201,17 +364,162 @@
 .quick-log-chip {
   padding: 0.5rem 1rem;
   border-radius: var(--radius-full);
+
   background: var(--bg-surface);
   border: 1px solid var(--border-medium);
+
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--text-secondary);
+
   cursor: pointer;
   transition: all var(--transition-fast);
 }
 
 .quick-log-chip:hover {
   background: var(--accent-fresh);
-  color: #FFFFFF;
+  color: #fff;
   border-color: var(--accent-fresh);
+}
+
+/* =========================================================
+   TABLETS
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .challenge-metrics-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .touch-grass-hero {
+    padding: 1.75rem 1.25rem;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .touch-grass-hero h1 {
+    font-size: clamp(1.7rem, 7vw, 2.2rem);
+  }
+
+  .touch-grass-hero p {
+    font-size: 0.95rem;
+  }
+
+  .challenge-metrics-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .missions-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .mission-card {
+    padding: 1.25rem;
+  }
+
+  .mission-header-row {
+    flex-wrap: wrap;
+  }
+
+  .mission-footer {
+    flex-wrap: wrap;
+  }
+
+  /* Zen mode uses the available phone viewport */
+  .zen-overlay {
+    justify-content: center;
+    padding: 1rem;
+    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  .zen-leaf-pulsing {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 0.75rem;
+  }
+
+  .zen-title {
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    margin-bottom: 0.5rem;
+  }
+
+  .zen-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    margin-bottom: 0.9rem;
+  }
+
+  .zen-timer-display {
+    font-size: clamp(2.25rem, 10vw, 3rem);
+    margin-bottom: 0.9rem;
+  }
+
+  .zen-tip-box {
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+  }
+
+  .zen-session-controls {
+    width: 100%;
+    max-width: 430px;
+    gap: 0.65rem;
+  }
+
+  .zen-session-controls > button {
+    width: 100%;
+    min-height: 48px;
+    font-size: 0.95rem;
+  }
+}
+
+/* =========================================================
+   SHORT SCREENS
+   Allow vertical scrolling rather than clipping content.
+   ========================================================= */
+
+@media (max-height: 700px) {
+  .zen-overlay {
+    justify-content: flex-start;
+    gap: 0.5rem;
+  }
+
+  .zen-leaf-pulsing {
+    margin-top: 0.25rem;
+  }
+}
+
+/* Small phones */
+@media (max-width: 360px) {
+  .zen-overlay {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .zen-title {
+    font-size: 1.5rem;
+  }
+
+  .zen-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .zen-tip-box {
+    padding: 0.7rem;
+    font-size: 0.82rem;
+  }
+
+  .zen-session-controls > button {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
 }

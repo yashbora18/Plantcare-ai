@@ -1,6 +1,15 @@
+
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Leaf, Lock, User, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
+import {
+  Leaf,
+  Lock,
+  User,
+  Mail,
+  ArrowRight,
+  ShieldCheck,
+  ArrowLeft,
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import Navbar from '../components/layout/Navbar';
@@ -13,37 +22,71 @@ export default function RegisterPage() {
     password: '',
     confirmPassword: '',
   });
+
   const [loading, setLoading] = useState(false);
+
   const { register } = useAuth();
   const { addToast } = useToast();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    setFormData((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (
+      !formData.username.trim() ||
+      !formData.email.trim() ||
+      !formData.password ||
+      !formData.confirmPassword
+    ) {
+      addToast('Please complete all required fields.', 'warning');
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       addToast('Passwords do not match.', 'error');
       return;
     }
 
     if (formData.password.length < 6) {
-      addToast('Password must be at least 6 characters long.', 'warning');
+      addToast(
+        'Password must be at least 6 characters long.',
+        'warning'
+      );
       return;
     }
 
     setLoading(true);
+
     try {
       await register({
-        username: formData.username,
-        email: formData.email,
-        full_name: formData.full_name,
+        username: formData.username.trim(),
+        email: formData.email.trim(),
+        full_name: formData.full_name.trim(),
         password: formData.password,
       });
-      addToast('Registration successful! Welcome to PlantCare AI.', 'success');
-      navigate('/dashboard');
+
+      addToast(
+        'Account created successfully! Please sign in.',
+        'success'
+      );
+
+      // Registration does not automatically log the user in.
+      navigate('/login', {
+        replace: true,
+        state: {
+          registered: true,
+          identifier: formData.username.trim(),
+        },
+      });
     } catch (err) {
       addToast(err.message || 'Registration failed.', 'error');
     } finally {
@@ -52,79 +95,88 @@ export default function RegisterPage() {
   };
 
   return (
-    <div style={{ backgroundColor: 'var(--bg-base)', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="login-page">
       <Navbar />
 
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2.5rem 1rem' }}>
-        <div
-          className="botanical-card"
-          style={{
-            maxWidth: '480px',
-            width: '100%',
-            padding: '2.5rem',
-            borderRadius: 'var(--radius-xl)',
-            boxShadow: 'var(--shadow-xl)',
-          }}
-        >
-          <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-            <div
-              style={{
-                width: '48px',
-                height: '48px',
-                borderRadius: 'var(--radius-md)',
-                backgroundColor: 'var(--color-fresh-leaf)',
-                color: '#111713',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: '1rem',
-              }}
-            >
+      <main className="login-main">
+        <section className="botanical-card login-card">
+          <NavLink to="/" className="login-back-home">
+            <ArrowLeft size={17} />
+            <span>Back to Home</span>
+          </NavLink>
+
+          <div className="login-heading">
+            <div className="login-icon">
               <Leaf size={26} />
             </div>
-            <h2 style={{ fontSize: '1.75rem' }}>Join PlantCare AI</h2>
-            <p style={{ marginTop: '0.35rem' }}>Open-source plant companion • Hacktoberfest 2026</p>
+
+            <h2>Join PlantCare AI</h2>
+
+            <p>
+              Open-source plant companion • Hacktoberfest 2026
+            </p>
           </div>
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label className="form-label" htmlFor="username">Username</label>
-              <div style={{ position: 'relative' }}>
+              <label className="form-label" htmlFor="username">
+                Username
+              </label>
+
+              <div className="login-input-wrapper">
+                <User
+                  size={16}
+                  className="login-input-icon"
+                  aria-hidden="true"
+                />
+
                 <input
                   id="username"
                   name="username"
                   type="text"
-                  className="input-control"
-                  style={{ paddingLeft: '2.4rem' }}
+                  className="input-control login-input"
                   placeholder="e.g. green_thumb"
                   value={formData.username}
                   onChange={handleChange}
+                  autoComplete="username"
+                  autoCapitalize="none"
+                  spellCheck={false}
                   required
                 />
-                <User size={16} style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
               </div>
             </div>
 
             <div className="form-group">
-              <label className="form-label" htmlFor="email">Email Address</label>
-              <div style={{ position: 'relative' }}>
+              <label className="form-label" htmlFor="email">
+                Email Address
+              </label>
+
+              <div className="login-input-wrapper">
+                <Mail
+                  size={16}
+                  className="login-input-icon"
+                  aria-hidden="true"
+                />
+
                 <input
                   id="email"
                   name="email"
                   type="email"
-                  className="input-control"
-                  style={{ paddingLeft: '2.4rem' }}
-                  placeholder="e.g. gardener@example.com"
+                  className="input-control login-input"
+                  placeholder="gardener@example.com"
                   value={formData.email}
                   onChange={handleChange}
+                  autoComplete="email"
                   required
                 />
-                <Mail size={16} style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
               </div>
             </div>
 
             <div className="form-group">
-              <label className="form-label" htmlFor="full_name">Full Name (Optional)</label>
+              <label className="form-label" htmlFor="full_name">
+                Full Name (Optional)
+              </label>
+
               <input
                 id="full_name"
                 name="full_name"
@@ -133,78 +185,103 @@ export default function RegisterPage() {
                 placeholder="e.g. Jane Green"
                 value={formData.full_name}
                 onChange={handleChange}
+                autoComplete="name"
               />
             </div>
 
             <div className="form-group">
-              <label className="form-label" htmlFor="password">Password</label>
-              <div style={{ position: 'relative' }}>
+              <label className="form-label" htmlFor="password">
+                Password
+              </label>
+
+              <div className="login-input-wrapper">
+                <Lock
+                  size={16}
+                  className="login-input-icon"
+                  aria-hidden="true"
+                />
+
                 <input
                   id="password"
                   name="password"
                   type="password"
-                  className="input-control"
-                  style={{ paddingLeft: '2.4rem' }}
+                  className="input-control login-input"
                   placeholder="At least 6 characters"
                   value={formData.password}
                   onChange={handleChange}
+                  autoComplete="new-password"
+                  minLength={6}
                   required
                 />
-                <Lock size={16} style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
               </div>
             </div>
 
             <div className="form-group">
-              <label className="form-label" htmlFor="confirmPassword">Confirm Password</label>
-              <div style={{ position: 'relative' }}>
+              <label
+                className="form-label"
+                htmlFor="confirmPassword"
+              >
+                Confirm Password
+              </label>
+
+              <div className="login-input-wrapper">
+                <Lock
+                  size={16}
+                  className="login-input-icon"
+                  aria-hidden="true"
+                />
+
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
                   type="password"
-                  className="input-control"
-                  style={{ paddingLeft: '2.4rem' }}
+                  className="input-control login-input"
                   placeholder="Re-enter password"
                   value={formData.confirmPassword}
                   onChange={handleChange}
+                  autoComplete="new-password"
+                  minLength={6}
                   required
                 />
-                <Lock size={16} style={{ position: 'absolute', left: '0.85rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
               </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', margin: '1rem 0', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-              <ShieldCheck size={16} color="var(--accent-fresh)" />
-              <span>Passwords are securely hashed with bcrypt. Data stays local.</span>
+            <div className="register-security-note">
+              <ShieldCheck
+                size={17}
+                color="var(--accent-fresh)"
+                aria-hidden="true"
+              />
+              <span>
+                Passwords are securely hashed with bcrypt.
+              </span>
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="btn btn-primary"
-              style={{ width: '100%', padding: '0.85rem' }}
+              className="btn btn-primary login-submit"
             >
               {loading ? (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <div className="spinner" style={{ width: '16px', height: '16px', border: '2px solid #FFFFFF', borderTopColor: 'transparent', borderRadius: '50%' }} />
-                  <span>Creating Account...</span>
-                </div>
+                <span className="login-loading">
+                  <span className="login-spinner" />
+                  Creating Account...
+                </span>
               ) : (
                 <>
-                  <span>Create Account & Start Growing</span>
-                  <ArrowRight size={16} />
+                  <span>Create Account</span>
+                  <ArrowRight size={17} />
                 </>
               )}
             </button>
           </form>
 
-          <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
+          <p className="login-register">
             Already have an account?{' '}
-            <NavLink to="/login" style={{ fontWeight: 600, color: 'var(--accent-fresh)' }}>
-              Sign in
-            </NavLink>
-          </div>
-        </div>
-      </div>
+            <NavLink to="/login">Sign in</NavLink>
+          </p>
+        </section>
+      </main>
     </div>
   );
 }

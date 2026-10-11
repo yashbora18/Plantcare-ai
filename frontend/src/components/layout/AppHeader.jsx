@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Menu, Flame, Sun, Moon } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
@@ -8,61 +9,53 @@ export default function AppHeader({ onOpenMobileMenu }) {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header
-      style={{
-        height: '68px',
-        borderBottom: '1px solid var(--border-subtle)',
-        backgroundColor: 'var(--bg-surface)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '0 2rem',
-        position: 'sticky',
-        top: 0,
-        zIndex: 800,
-        backdropFilter: 'blur(8px)',
-      }}
-    >
-      {/* Left: Mobile Menu & Title */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+    <header className="app-header">
+      <div className="app-header-left">
         <button
+          type="button"
           onClick={onOpenMobileMenu}
-          className="btn-icon"
-          style={{ display: 'none' }}
+          className="btn-icon app-mobile-menu-toggle"
           id="mobile-nav-toggle"
-          aria-label="Open mobile navigation"
+          aria-label="Open navigation menu"
+          aria-controls="app-sidebar"
         >
-          <Menu size={20} />
+          <Menu size={21} />
         </button>
+
+        <NavLink
+          to="/dashboard"
+          className="app-header-brand"
+          aria-label="PlantCare AI dashboard"
+        >
+          <span className="app-header-brand-icon">
+            <span aria-hidden="true">🌿</span>
+          </span>
+          <span>PlantCare AI</span>
+        </NavLink>
       </div>
 
-      {/* Right: Actions, AI Status, Theme */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <AiStatusPill showDetails={true} />
+      <div className="app-header-actions">
+        <div className="app-header-ai-status">
+          <AiStatusPill showDetails={true} />
+        </div>
 
         <NavLink
           to="/challenge"
-          className="btn btn-sm btn-earth"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.4rem',
-            padding: '0.45rem 0.85rem',
-            borderRadius: 'var(--radius-full)',
-          }}
+          className="btn btn-sm btn-earth app-header-challenge"
           title="Hacktoberfest Week 1: Touch Grass"
         >
-          <Flame size={15} color="#FBBF24" />
+          <Flame size={16} color="#FBBF24" />
           <span>Touch Grass</span>
         </NavLink>
 
         <button
+          type="button"
           onClick={toggleTheme}
-          className="btn-icon"
+          className="btn-icon app-header-theme-toggle"
           title={`Switch to ${theme === 'light' ? 'Dark' : 'Light'} Mode`}
-          aria-label="Toggle theme"
+          aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
         >
-          {theme === 'light' ? <Moon size={16} /> : <Sun size={16} />}
+          {theme === 'light' ? <Moon size={17} /> : <Sun size={17} />}
         </button>
       </div>
     </header>
