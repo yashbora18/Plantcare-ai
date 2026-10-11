@@ -48,16 +48,18 @@ app = FastAPI(
 )
 
 
+
 # ============================================================
 # CORS configuration
 # ============================================================
 
-# Include configured origins while ensuring local Vite origins
-# are permitted during development.
 allowed_origins = set(settings.cors_origin_list or [])
 
 allowed_origins.update(
     {
+        "https://plantcare-ai-six.vercel.app",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
         "http://localhost:5174",
         "http://127.0.0.1:5174",
     }
@@ -70,6 +72,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 
 # ============================================================
