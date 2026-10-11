@@ -1,0 +1,20 @@
+﻿{
+    "$schema":  "https://raw.githubusercontent.com/TestSprite/testsprite-cli/v0.14.0/schemas/plan.schema.json",
+    "projectId":  "473953a9-ad8b-4358-ad26-99b5f85414d0",
+    "type":  "frontend",
+    "name":  "Plant Doctor diagnosis workflow",
+    "planSteps":  [
+                      {
+                          "type":  "action",
+                          "description":  "Open Plant Doctor, select a plant, upload a valid plant image, select observed symptoms, and click Analyze Plant Health."
+                      },
+                      {
+                          "type":  "assertion",
+                          "description":  "Verify a new diagnosis appears with a title, severity, visible symptoms, possible causes, and recommended care actions."
+                      },
+                      {
+                          "type":  "assertion",
+                          "description":  "Verify the result is not an empty response, raw exception, or previous diagnosis reused without a new analysis."
+                      }
+                  ]
+}

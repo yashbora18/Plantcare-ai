@@ -1,0 +1,20 @@
+﻿{
+    "$schema":  "https://raw.githubusercontent.com/TestSprite/testsprite-cli/v0.14.0/schemas/plan.schema.json",
+    "projectId":  "473953a9-ad8b-4358-ad26-99b5f85414d0",
+    "type":  "frontend",
+    "name":  "Responsive layout and basic accessibility",
+    "planSteps":  [
+                      {
+                          "type":  "action",
+                          "description":  "Inspect the landing, login, registration, and Plant Doctor pages at desktop and mobile viewport sizes."
+                      },
+                      {
+                          "type":  "assertion",
+                          "description":  "Verify forms, navigation, diagnosis content, and buttons remain visible and usable without unintended horizontal overflow."
+                      },
+                      {
+                          "type":  "assertion",
+                          "description":  "Verify form controls have understandable labels and interactive elements can be identified and operated."
+                      }
+                  ]
+}

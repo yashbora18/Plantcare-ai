@@ -1,0 +1,217 @@
+@import './variables.css';
+
+/* Touch Grass Challenge - Hacktoberfest Week 1 Core Feature */
+.touch-grass-hero {
+  background: linear-gradient(135deg, rgba(23, 77, 53, 0.92), rgba(101, 166, 111, 0.88)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80"><circle cx="40" cy="40" r="1.5" fill="%23ffffff" fill-opacity="0.15"/></svg>');
+  color: #FFFFFF;
+  border-radius: var(--radius-xl);
+  padding: 3rem 2.5rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 12px 35px rgba(23, 77, 53, 0.28);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.touch-grass-hero h1 {
+  color: #FFFFFF;
+  font-size: 2.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.touch-grass-hero p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  max-width: 620px;
+}
+
+/* Zen "Put Your Phone Away" Screen Mode */
+.zen-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, #174D35, #0B2418);
+  z-index: 3000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 2rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.zen-leaf-pulsing {
+  width: 90px;
+  height: 90px;
+  border-radius: var(--radius-full);
+  background: rgba(101, 166, 111, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #65A66F;
+  margin-bottom: 2rem;
+  animation: pulseLeaf 3s infinite ease-in-out;
+  box-shadow: 0 0 40px rgba(101, 166, 111, 0.4);
+}
+
+.zen-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: #FFFFFF;
+}
+
+.zen-subtitle {
+  font-size: 1.35rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 580px;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.zen-timer-display {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #65A66F;
+  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+}
+
+.zen-tip-box {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 2rem;
+  max-width: 540px;
+  margin-bottom: 2.5rem;
+  font-size: 1rem;
+}
+
+/* Challenge Metrics Row */
+.challenge-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 1000px) {
+  .challenge-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 600px) {
+  .challenge-metrics-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Missions Checklist */
+.missions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.mission-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.mission-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent-fresh);
+}
+
+.mission-card.completed {
+  border-color: var(--status-healthy);
+  background: var(--bg-surface-alt);
+}
+
+.mission-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mission-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.mission-instructions {
+  background: var(--bg-surface-alt);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin: 1rem 0;
+  white-space: pre-line;
+}
+
+.mission-sustainable-tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--color-earth-brown);
+  background: var(--accent-earth-light);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+}
+[data-theme="dark"] .mission-sustainable-tip {
+  color: #D4A373;
+}
+
+.mission-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Quick Minute Log Chips */
+.quick-log-chips {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.quick-log-chip {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quick-log-chip:hover {
+  background: var(--accent-fresh);
+  color: #FFFFFF;
+  border-color: var(--accent-fresh);
+}

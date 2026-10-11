@@ -1,0 +1,24 @@
+﻿{
+    "$schema":  "https://raw.githubusercontent.com/TestSprite/testsprite-cli/v0.14.0/schemas/plan.schema.json",
+    "projectId":  "473953a9-ad8b-4358-ad26-99b5f85414d0",
+    "type":  "frontend",
+    "name":  "Symptom selection and additional notes",
+    "planSteps":  [
+                      {
+                          "type":  "action",
+                          "description":  "Select multiple symptoms and enter additional symptom notes before analyzing a valid plant image."
+                      },
+                      {
+                          "type":  "assertion",
+                          "description":  "Verify selected symptoms remain selected and the notes can be entered without layout or form errors."
+                      },
+                      {
+                          "type":  "action",
+                          "description":  "Change the selected symptoms and run a new analysis."
+                      },
+                      {
+                          "type":  "assertion",
+                          "description":  "Verify the new result reflects the current submission rather than blindly reusing the prior result."
+                      }
+                  ]
+}

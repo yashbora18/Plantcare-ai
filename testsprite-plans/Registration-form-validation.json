@@ -1,0 +1,24 @@
+﻿{
+    "$schema":  "https://raw.githubusercontent.com/TestSprite/testsprite-cli/v0.14.0/schemas/plan.schema.json",
+    "projectId":  "473953a9-ad8b-4358-ad26-99b5f85414d0",
+    "type":  "frontend",
+    "name":  "Registration form validation",
+    "planSteps":  [
+                      {
+                          "type":  "action",
+                          "description":  "Open registration and submit the form with required fields empty."
+                      },
+                      {
+                          "type":  "assertion",
+                          "description":  "Verify required fields are validated and registration is not submitted."
+                      },
+                      {
+                          "type":  "action",
+                          "description":  "Enter invalid email or mismatched passwords if those fields exist."
+                      },
+                      {
+                          "type":  "assertion",
+                          "description":  "Verify invalid values are rejected with clear feedback."
+                      }
+                  ]
+}

@@ -1,0 +1,24 @@
+﻿{
+    "$schema":  "https://raw.githubusercontent.com/TestSprite/testsprite-cli/v0.14.0/schemas/plan.schema.json",
+    "projectId":  "473953a9-ad8b-4358-ad26-99b5f85414d0",
+    "type":  "frontend",
+    "name":  "Save and retrieve assessment history",
+    "planSteps":  [
+                      {
+                          "type":  "action",
+                          "description":  "Generate a diagnosis and click Save to History."
+                      },
+                      {
+                          "type":  "assertion",
+                          "description":  "Verify the application confirms the save or otherwise reports its outcome clearly."
+                      },
+                      {
+                          "type":  "action",
+                          "description":  "Open Assessment History and locate the saved assessment."
+                      },
+                      {
+                          "type":  "assertion",
+                          "description":  "Verify the saved assessment is present and its displayed details are consistent with the saved diagnosis."
+                      }
+                  ]
+}

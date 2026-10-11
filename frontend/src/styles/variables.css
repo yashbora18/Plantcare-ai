@@ -1,0 +1,125 @@
+/* PlantCare A Design Tokens - Botanical Design System */
+:root {
+  /* Brand Core Colors */
+  --color-forest-green: #174D35;
+  --color-fresh-leaf: #65A66F;
+  --color-warm-cream: #F7F5EC;
+  --color-earth-brown: #8B6548;
+  --color-charcoal: #202820;
+
+  /* Typography */
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(23, 77, 53, 0.08);
+  --shadow-md: 0 4px 14px rgba(23, 77, 53, 0.1);
+  --shadow-lg: 0 10px 30px rgba(23, 77, 53, 0.14);
+  --shadow-xl: 0 20px 40px rgba(23, 77, 53, 0.18);
+  --shadow-focus: 0 0 0 3px rgba(101, 166, 111, 0.35);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light Theme (Default) */
+:root,
+[data-theme="light"] {
+  --bg-base: #F7F5EC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-alt: #F1EFE6;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FAF9F3;
+  --bg-sidebar: #103323;
+  --bg-sidebar-hover: #174D35;
+  --bg-sidebar-active: #1D5C40;
+  
+  --text-primary: #1C251F;
+  --text-secondary: #4A5B50;
+  --text-muted: #798C7F;
+  --text-inverse: #FFFFFF;
+  
+  --border-subtle: #E5E1D4;
+  --border-medium: #D2CDC0;
+  --border-strong: #A8B8AC;
+  
+  --accent-primary: #174D35;
+  --accent-primary-hover: #113A28;
+  --accent-fresh: #65A66F;
+  --accent-fresh-light: #EBF4ED;
+  --accent-earth: #8B6548;
+  --accent-earth-light: #F6EFE9;
+  
+  --badge-bg: #E8F2EA;
+  --badge-text: #174D35;
+
+  --status-healthy: #2E7D32;
+  --status-healthy-bg: #E8F5E9;
+  --status-warning: #D97706;
+  --status-warning-bg: #FEF3C7;
+  --status-danger: #DC2626;
+  --status-danger-bg: #FEE2E2;
+  --status-info: #0284C7;
+  --status-info-bg: #E0F2FE;
+
+  --glass-bg: rgba(255, 255, 255, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.5);
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --bg-base: #111713;
+  --bg-surface: #18231C;
+  --bg-surface-alt: #1F2D24;
+  --bg-card: #1D2A22;
+  --bg-card-hover: #233329;
+  --bg-sidebar: #0C1510;
+  --bg-sidebar-hover: #15221A;
+  --bg-sidebar-active: #1B2B21;
+
+  --text-primary: #F1F4F1;
+  --text-secondary: #A4B7A9;
+  --text-muted: #6E8274;
+  --text-inverse: #1C251F;
+
+  --border-subtle: #26362C;
+  --border-medium: #354B3E;
+  --border-strong: #4B6856;
+
+  --accent-primary: #65A66F;
+  --accent-primary-hover: #7EBA87;
+  --accent-fresh: #65A66F;
+  --accent-fresh-light: #1A3122;
+  --accent-earth: #A67D5B;
+  --accent-earth-light: #2A201A;
+
+  --badge-bg: #1B3324;
+  --badge-text: #86C790;
+
+  --status-healthy: #4ADE80;
+  --status-healthy-bg: #143521;
+  --status-warning: #FBBF24;
+  --status-warning-bg: #3B2A08;
+  --status-danger: #F87171;
+  --status-danger-bg: #3B1616;
+  --status-info: #38BDF8;
+  --status-info-bg: #0C283B;
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.6);
+
+  --glass-bg: rgba(24, 35, 28, 0.85);
+  --glass-border: rgba(53, 75, 62, 0.5);
+}

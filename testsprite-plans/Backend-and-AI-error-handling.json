@@ -1,0 +1,20 @@
+﻿{
+    "$schema":  "https://raw.githubusercontent.com/TestSprite/testsprite-cli/v0.14.0/schemas/plan.schema.json",
+    "projectId":  "473953a9-ad8b-4358-ad26-99b5f85414d0",
+    "type":  "frontend",
+    "name":  "Backend and AI error handling",
+    "planSteps":  [
+                      {
+                          "type":  "action",
+                          "description":  "Open the Plant Doctor and submit a valid image while the AI service is available."
+                      },
+                      {
+                          "type":  "assertion",
+                          "description":  "Verify successful inference produces a usable diagnosis."
+                      },
+                      {
+                          "type":  "assertion",
+                          "description":  "Verify that when an API or AI-service failure occurs, the UI presents a clear error instead of crashing or displaying an empty diagnosis as success."
+                      }
+                  ]
+}
